@@ -24,3 +24,5 @@ variable "infra_env" {
 variable "instances"{}
 variable "public_subnet"{}
 variable "security_groups"{}
+
+variable "vpc_id"{}

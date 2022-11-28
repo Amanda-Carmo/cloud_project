@@ -5,3 +5,7 @@ output "instance_eip" {
 output "instance" {
     value = aws_instance.instance
 }
+
+output "security_groups" {
+    value = [for sg in aws_security_group.sg: sg]
+}

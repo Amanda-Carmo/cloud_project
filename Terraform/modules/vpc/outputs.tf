@@ -9,10 +9,6 @@ output "vpc_cidr" {
 output "public_subnet" {
     value = aws_subnet.public_subnet.id
 }
-
-output "security_groups" {
-    value = [for sg in aws_security_group.sg: sg]
-}
   
 output "availability_zones" {
     value = data.aws_availability_zones.available.names

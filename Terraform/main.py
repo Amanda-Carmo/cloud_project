@@ -166,6 +166,7 @@ def create_sg():
 
     return sg_id
 
+# dict_keys(['Description', 'GroupName', 'IpPermissions', 'OwnerId', 'GroupId', 'IpPermissionsEgress', 'Tags', 'VpcId'])
 
 def create_instance():
     regions = {}
@@ -173,12 +174,8 @@ def create_instance():
     if not os.path.exists("./terraform.tfstate.d"):
         os.mkdir("./terraform.tfstate.d")
 
-    var = os.popen('aws ec2 describe-security-groups --region us-east-1').read()
-    varj = json.loads(var)
-
-    for i in varj:
-        print(i)
-        print("------------------------------------------")
+    
+    print("--------------------------------------------------")
 
 
     rprint("[bold purple]Creating Instance[/bold purple]")
@@ -226,6 +223,26 @@ def create_instance():
     
     instance_sg_id = Prompt.ask("[blue]Instance Security Group ID:[/blue]")
     print(instance_sg_id)
+
+    # os.system("aws ec2 describe-security-groups --region us-east-1")
+    var = os.popen('aws ec2 describe-security-groups --region us-east-1').read()
+
+    varj = json.loads(var)
+
+    var_sg = varj['SecurityGroups']
+
+    print(var_sg)
+
+    for i in var_sg:
+        print()
+        if 'Tags' in i.keys():
+
+            for j in i['Tags']:
+                if j['Value'] == instance_sg_id:
+                    sg_id = i['GroupId']
+                    print(sg_id)
+                    break
+            print("------------------------------------------")
 
     created_inst = {
             "name": instance_name,
@@ -390,12 +407,6 @@ if options == "list":
     
     if options_list == "security groups":
         os.system("aws ec2 describe-security-groups --region us-east-1")
-
-        print("----------------------------------")
-
-        var = os.popen('aws ec2 describe-security-groups --region us-east-1').read()
-        var = json.loads(var)
-        
         
         
 
