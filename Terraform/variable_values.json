@@ -1,0 +1,90 @@
+{
+    "security_groups": [
+        {
+            "id": "1",
+            "name": "security_group_1",
+            "description": "first security group",
+            "vpc_id": "aws_vpc.aws_vpc.id",
+          
+            "ingress": [
+                {
+                    "description": "ingress rule 1",
+                    "from_port": 80,
+                    "to_port": 80,
+                    "protocol":"tcp", 
+                    "cidr_blocks": ["0.0.0.0/0"]
+                }
+            ],
+          
+            "egress": [
+                {
+                    "from_port": 0,
+                    "to_port": 0,
+                    "protocol": -1,
+                    "cidr_blocks": ["0.0.0.0/0"]
+
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "name": "security_group_2",
+            "description": "second security group",
+            "vpc_id": "aws_vpc.aws_vpc.id",
+            
+            "ingress": [
+                {
+                    "description": "ingress rule 2",
+                    "from_port": 80,
+                    "to_port": 80,
+                    "protocol":"tcp", 
+                    "cidr_blocks": ["0.0.0.0/0"]
+                }
+            ],
+            
+            "egress": [
+                {
+                    "from_port": 0,
+                    "to_port": 0,
+                    "protocol": -1,
+                    "cidr_blocks": ["0.0.0.0/0"]
+
+                }
+            ]
+        }
+
+    ],
+
+    "users": [
+
+        {
+            "name": "user_1",
+            "restrictions": {
+                "name": "user_1_restrictions",
+                "description": "user_1_restrictions_description",
+                "actions": [
+                    "*"
+                ],
+                "resources": [
+                    "*"
+                ]
+            }
+        }
+    ],
+    "instances": [
+        {
+            "name": "instance_1",
+            "ami": "ami-0ee23bfc74a881de5",
+            "instance_type": "t2.micro",
+            "region": "us-east-1a",
+            "security_groups_ids": ["2"]
+        },
+        {
+            "name": "instance_2",
+            "ami": "ami-0ee23bfc74a881de5",
+            "instance_type": "t2.micro",
+            "region": "us-east-1a",
+            "security_groups_ids": ["1", "2"]
+        }
+    ]
+}
