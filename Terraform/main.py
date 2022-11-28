@@ -181,7 +181,7 @@ def create_instance():
     rprint("[bold purple]Creating Instance[/bold purple]")
     instance_name = Prompt.ask("[blue]Instance Name:[/blue]")
     instance_type = Prompt.ask("[blue]Instance Type:[/blue]")
-    instance_ami = Prompt.ask("[blue]Instance AMI:[/blue]")
+    instance_ami = 'ami-0b0dcb5067f052a63'
     rprint(f"{list(regions.keys())}")
     instance_region = 'us-east-1'
 
