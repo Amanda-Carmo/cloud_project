@@ -31,3 +31,5 @@ override.tf.json
 *.pem
 
 ec2/keys/*
+
+*.terraform.lock.hcl
