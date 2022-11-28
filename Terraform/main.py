@@ -39,7 +39,17 @@ f_sg.close()
 
 def create_user():
     rprint("[bold purple]Creating User[/bold purple]")
-    username = Prompt.ask("[blue]Username:[/blue]")   
+    username = Prompt.ask("[blue]Username:[/blue]")
+
+    f_user = open('default_variables.json')  
+    read_file = json.load(f_user)
+    user_list = read_file["users"]
+
+    for i in user_list:
+        if i["name"] == username:
+            rprint("User already exists")
+            return
+    f_user.close()
 
     rprint("[bold purple]Set restrictions for user[/bold purple]")
 
@@ -73,8 +83,8 @@ def create_user():
     created_users = {
             "name": username, 
             "restrictions": {
-                "name": "restriciton",
-                "description": "Restriction for {usernames}",
+                "name": "restriciton" + username,
+                "description": f"Restriction for {username}",
                 "actions": restriction_actions,
                 "resources": restriction_resources,
         }}
@@ -156,11 +166,20 @@ def create_sg():
 
     return sg_id
 
+
 def create_instance():
     regions = {}
 
     if not os.path.exists("./terraform.tfstate.d"):
         os.mkdir("./terraform.tfstate.d")
+
+    var = os.popen('aws ec2 describe-security-groups --region us-east-1').read()
+    varj = json.loads(var)
+
+    for i in varj:
+        print(i)
+        print("------------------------------------------")
+
 
     rprint("[bold purple]Creating Instance[/bold purple]")
     instance_name = Prompt.ask("[blue]Instance Name:[/blue]")
@@ -168,6 +187,7 @@ def create_instance():
     instance_ami = Prompt.ask("[blue]Instance AMI:[/blue]")
     rprint(f"{list(regions.keys())}")
     instance_region = 'us-east-1'
+
 
     f = open('default_variables.json')
     read_file = json.load(f)
@@ -205,6 +225,7 @@ def create_instance():
 
     
     instance_sg_id = Prompt.ask("[blue]Instance Security Group ID:[/blue]")
+    print(instance_sg_id)
 
     created_inst = {
             "name": instance_name,
@@ -369,6 +390,14 @@ if options == "list":
     
     if options_list == "security groups":
         os.system("aws ec2 describe-security-groups --region us-east-1")
+
+        print("----------------------------------")
+
+        var = os.popen('aws ec2 describe-security-groups --region us-east-1').read()
+        var = json.loads(var)
+        
+        
+        
 
 
 
